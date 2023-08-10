@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const User = require("../models/users.model");
 
+//! POST /users/signup
 const createNewUser = (req, res, next) => {
   User.find({ email: req.body.email })
     .exec()
@@ -48,4 +49,27 @@ const createNewUser = (req, res, next) => {
     });
 };
 
-module.exports = { createNewUser };
+//! GET /users
+const getAllUsers = (req, res, next) => {
+  User.find()
+    .exec()
+    .then((docs) => {
+      res.status(200).json({
+        count: docs.length,
+        users: docs.map((doc) => {
+          return {
+            id: doc._id,
+            email: doc.email,
+          };
+        }),
+      });
+    })
+    .catch((err) => {
+      console.log("Authentication failed: Profile not found");
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
+
+module.exports = { createNewUser, getAllUsers };

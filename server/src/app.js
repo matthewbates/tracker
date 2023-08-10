@@ -8,6 +8,6 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(morgan("dev"));
-app.use("/signup", usersRouter);
+app.use("/users", usersRouter);
 
 module.exports = app;
